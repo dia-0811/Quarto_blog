@@ -1,0 +1,73 @@
+---
+title: "Day 3: Workflow managers: Nextflow"
+date: "2026-09-16"
+categories: [nextflow, pipeline, pixi]
+description: "Learning how to run an automated workflow with nextflow."
+image: day3.png
+---
+
+Running one script for every tool can become difficult, especially when the analyses are more complex. A workflow manager gathers the steps and runs them in the right order so that the pipeline becomes portable and reproducible. Once the pipeline is developed, all it takes is one command to start it. 
+
+Nextflow is one example of a workflow manager.
+
+In nextflow, the scripts are turned into processes that are connected by channels that contain the data. Nextflow also performs checks on the processes and their input and output. So it can automatically resume execution at a point of failure without going back over the successful steps. 
+
+Here is how a nextflow script looks like. In this example, we take a string and split it into chunks, then we convert them to uppercase. 
+
+```bash
+screen -S nextflow
+pixi init -c conda-forge -c bioconda
+pixi add nextflow
+
+#!/usr/bin/env nextflow
+
+params.greeting = 'Hello world!'
+
+process SPLITLETTERS {
+    input:
+    val x
+
+    output:
+    path 'chunk_*'
+
+    script:
+    """
+    printf '$x' | split -b 6 - chunk_
+    """
+}
+
+process CONVERTTOUPPER {
+    input:
+    path y
+
+    output:
+    stdout
+
+    script:
+    """
+    cat $y | tr '[a-z]' '[A-Z]'
+    """
+}
+
+workflow {
+    greeting_ch = Channel.of(params.greeting)
+    letters_ch  = SPLITLETTERS(greeting_ch)
+    results_ch  = CONVERTTOUPPER(letters_ch.flatten())
+    results_ch.view { it }
+}
+
+
+
+pixi run nextflow run hello.nf
+```
+
+We should also periodically clean up the nextflow work directory.
+We can see the executions log and runtine information with:
+```bash
+pixi run nextflow log
+```
+Then we can clean up the work directory with: 
+```bash
+pixi run nextflow clean -f
+```
+

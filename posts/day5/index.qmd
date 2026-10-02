@@ -1,0 +1,78 @@
+---
+title: "Day 5: ggplot"
+date: "2026-09-18"
+categories: [ggplot, R]
+description: "Basics on making plots with ggplot"
+---
+
+In this last day of the course we addressed how to make plots, a fundamental step in data analysis. For this purpose, we used the R package ggplot2. 
+The required parts to make a plot are the data (a dataframe), the aesthetics (what should be on the x and y axes) and a geom (what type of plot we want). 
+
+```{r}
+library(ggplot2)
+library(palmerpenguins)
+library(patchwork)
+```
+
+## example plot
+```{r}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, colour = species)) +
+  geom_point()
+```
+
+The nice thing is that we can save the plot as a variable and then add more to it! For example: 
+```{r}
+p <- ggplot(penguins)
+
+p1 <- p + geom_bar(aes(x = species))
+p2 <- p + geom_boxplot(aes(x = species, y = body_mass_g))
+
+p1 + p2
+```
+
+## position 
+How we want to have the bars:
+```{r}
+b <- ggplot(penguins, aes(x = factor(year), y = body_mass_g, fill = species)) + labs(x = "year")
+
+(b + geom_bar(stat = "identity", position = "stack")) +
+  (b + geom_bar(stat = "identity", position = "dodge")) +
+  (b + geom_bar(stat = "identity", position = "fill")) +
+  plot_layout(guides = "collect")
+```
+
+## scales
+Scales control how aesthetics are shown. For example:
+```{r}
+ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
+  geom_point() +
+  scale_colour_manual(name = "Species", values = c("#5BC0EB", "#FDE74C", "#9BC53D")) +
+  scale_x_continuous(name = "Flipper length (mm)")
+```
+
+## facets
+Facets allow us to split the data into subplots. For example, facet_wrap() splits a plot by a variable, and facet_grid() splits a plot by two variables:
+```{r}
+ggplot(penguins, aes(flipper_length_mm, body_mass_g)) +
+  geom_point() +
+  facet_grid(island ~ year)
+```
+
+## themes
+Themes control everything that is not data.
+
+```{r}
+my_theme <- theme_bw() +
+  theme(panel.grid.minor = element_blank(),
+        legend.position = "top")
+
+ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
+  geom_point() +
+  labs(title = "Bigger flippers, heavier penguins") +
+  my_theme
+```
+
+Then we can save the plot as a pdf or png file:
+```{r}
+ggsave("plot.png", p, height = 5, width = 7, units = "cm", dpi = 200)
+```

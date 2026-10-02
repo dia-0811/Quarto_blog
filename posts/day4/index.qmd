@@ -1,0 +1,34 @@
+---
+title: "Day 4: nf-core pipelines"
+date: "2026-09-17"
+categories: [nf-core, nextflow]
+description: "Testing an already developed nf-core pipeline"
+image: day4.png
+
+---
+
+nf-core is a community built around nextflow, where people build nextflow pipelines on different bioinformatics data. 
+
+## why use nf-core?
+When we want to analyse data, we can be pretty sure that a pipeline for that type of data probably already exists. So we can save time and effort by using an already validated pipeline, built and maintained by an expert. We also get all the benefits of nextflow, like reproducibility and portability. 
+
+## setup
+So now all we have to do is to create a pixi environment containing nextflow and nf-core:
+```bash
+pixi init nextflow_test -c conda-forge -c bioconda
+cd nextflow_test
+pixi add nextflow nf-core
+```
+
+## test run
+In this example, we will use the Sarek pipeline:
+```bash
+pixi run nextflow run nf-core/sarek -profile test --outdir sarek_test -c hpc2n.config
+```
+hpc2n.config is a configuration file that we need to run this pipeline on our cluster!
+
+## running nf-core pipeline on real data!
+We first made a samplesheet with the samples we wanted to analyse. Then we added it to the form on the nf-core launcher and ran it as a batch job:
+```bash
+pixi run nextflow run nf-core/rnaseq -r 3.26.0 -params-file nf-params.json -c hpc2n.config
+```

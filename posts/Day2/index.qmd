@@ -1,0 +1,49 @@
+---
+title: "Day 2: Pixi, quality control and containers"
+date: "2026-09-15"
+categories: [pixi, fastqc, multiqc, containers]
+description: "Reproducibility with Pixi and quality control with FastQC and MultiQC."
+image: day2.png
+---
+
+A problem with reproducible research is that different software versions and dependencies can lead to very different results. So how do we solve this?
+
+## Pixi
+Pixi is an environment manager that we can run on all major operating systems. Pixi installs tools and dependencies in one project, so that others can reproduce the same results. 
+```bash
+pixi init myproject -c conda-forge -c bioconda   # conda-forge first!
+cd myproject
+pixi add fastqc multiqc
+pixi run fastqc --help
+```
+
+## pixi file structure
+But what are the files that we now have in the project? pixi.toml lists the channels, platforms and dependencies. pixi.lock records the exact versions of the dependencies and is not to be ever deleted! 
+
+## quality control
+In bioinformatics, quality control is a fundamental step to make sure that the data is of good quality. One way to do this is using FastQC, a tool that generates a report with quality metrics. 
+
+We ran fastqc on the samples and then used MultiQC to summarize the results in one report. 
+
+## containers
+Containers are built as container images that specify the operating system, dependencies, and software in an isolated environment. The container management tool then takes the images and build the container. These management tools can be run on all operating systems and it will run in all environments. 
+
+To download container images, we could use for example dockerhub or seqera. 
+
+We then used apptainer to get the image with apptainer pulland run the software inside the container with apptainer exec.:  
+```bash
+apptainer pull fastqc_0.12.1.sif docker://biocontainers/fastqc:v0.11.9_cv8
+apptainer exec fastqc_0.12.1.sif fastqc --version
+```
+
+## running containers with sbatch
+We can run apptainer containers as part of a batch job. 
+Example: 
+```bash
+#! /bin/bash -l
+#SBATCH -A project_ID
+#SBATCH -t 30:00
+#SBATCH -n 1
+
+apptainer exec container_image.sif fastqc -o . --noextract ../data/*fastq.gz
+```

@@ -1,0 +1,27 @@
+---
+title: "Day 1: How to make a Quarto blog"
+date: "2026-09-14"
+categories: [quarto, git, github]
+description: "I create a blog using quarto, use version control and publish it on github."
+image: day1.png
+---
+
+## purpose of this blog
+The purpose of this blog is to document this course. It is both a way to review my notes, especially the most complex parts, and a way to practice my skills in Quarto.
+
+## creating the blog
+Creating the blog was actually fairly easy. All we need to do is open VScode and create a new project. Then, we select the Quarto blog and that's it! The blog skeleton is created and we can now personalise it. 
+
+## blog structure
+We will have one post for every day of the course, so five in total. What we need to do for this is have a "posts" folder where we will create a new folder for every day. There, we will write inside the index.qmd file, which contains the content of this post.  
+
+## publishing it on github
+First, we create a new repository on github. Then:
+```bash
+git init
+git add .
+git commit -m "Initial blog"
+git remote add origin https://github.com/<user>/<repo>.git
+git branch -M main
+git push -u origin main
+```

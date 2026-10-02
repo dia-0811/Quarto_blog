@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>A week in Uppsala: Reproducible research</title>
+<link>https://your-website-url.example.com/</link>
+<atom:link href="https://your-website-url.example.com/index.xml" rel="self" type="application/rss+xml"/>
+<description>A blog built with Quarto</description>
+<generator>quarto-1.10.18</generator>
+<lastBuildDate>Thu, 17 Sep 2026 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>Day 5: ggplot</title>
+  <link>https://your-website-url.example.com/posts/day5/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<p>In this last day of the course we addressed how to make plots, a fundamental step in data analysis. For this purpose, we used the R package ggplot2. The required parts to make a plot are the data (a dataframe), the aesthetics (what should be on the x and y axes) and a geom (what type of plot we want).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(ggplot2)</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(palmerpenguins)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'palmerpenguins'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:datasets':
+
+    penguins, penguins_raw</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(patchwork)</span></code></pre></div></div>
+</div>
+<section id="example-plot" class="level2">
+<h2 class="anchored" data-anchor-id="example-plot">example plot</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> flipper_length_mm, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> species)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb5-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>()</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://your-website-url.example.com/posts/day5/index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The nice thing is that we can save the plot as a variable and then add more to it! For example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">p <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(penguins)</span>
+<span id="cb7-2"></span>
+<span id="cb7-3">p1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> p <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_bar</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> species))</span>
+<span id="cb7-4">p2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> p <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_boxplot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> species, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> body_mass_g))</span>
+<span id="cb7-5"></span>
+<span id="cb7-6">p1 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> p2</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://your-website-url.example.com/posts/day5/index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="position" class="level2">
+<h2 class="anchored" data-anchor-id="position">position</h2>
+<p>How we want to have the bars:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1">b <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">factor</span>(year), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> species)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"year"</span>)</span>
+<span id="cb9-2"></span>
+<span id="cb9-3">(b <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_bar</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">stat =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"identity"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">position =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"stack"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb9-4">  (b <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_bar</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">stat =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"identity"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">position =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dodge"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb9-5">  (b <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_bar</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">stat =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"identity"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">position =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"fill"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb9-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot_layout</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">guides =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"collect"</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_bar()`).
+Removed 2 rows containing missing values or values outside the scale range
+(`geom_bar()`).
+Removed 2 rows containing missing values or values outside the scale range
+(`geom_bar()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://your-website-url.example.com/posts/day5/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="scales" class="level2">
+<h2 class="anchored" data-anchor-id="scales">scales</h2>
+<p>Scales control how aesthetics are shown. For example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(flipper_length_mm, body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> species)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb11-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb11-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_colour_manual</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">name =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Species"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#5BC0EB"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#FDE74C"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#9BC53D"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb11-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_x_continuous</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">name =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Flipper length (mm)"</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://your-website-url.example.com/posts/day5/index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="facets" class="level2">
+<h2 class="anchored" data-anchor-id="facets">facets</h2>
+<p>Facets allow us to split the data into subplots. For example, facet_wrap() splits a plot by a variable, and facet_grid() splits a plot by two variables:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(flipper_length_mm, body_mass_g)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb13-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb13-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">facet_grid</span>(island <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> year)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://your-website-url.example.com/posts/day5/index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="themes" class="level2">
+<h2 class="anchored" data-anchor-id="themes">themes</h2>
+<p>Themes control everything that is not data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1">my_theme <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_bw</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb15-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">panel.grid.minor =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">element_blank</span>(),</span>
+<span id="cb15-3">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">legend.position =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"top"</span>)</span>
+<span id="cb15-4"></span>
+<span id="cb15-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(flipper_length_mm, body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> species)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb15-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb15-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Bigger flippers, heavier penguins"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb15-8">  my_theme</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://your-website-url.example.com/posts/day5/index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Then we can save the plot as a pdf or png file:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggsave</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"plot.png"</span>, p, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">height =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">width =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">units =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cm"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">dpi =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">200</span>)</span></code></pre></div></div>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <category>ggplot</category>
+  <category>R</category>
+  <guid>https://your-website-url.example.com/posts/day5/</guid>
+  <pubDate>Thu, 17 Sep 2026 22:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Day 4: nf-core pipelines</title>
+  <link>https://your-website-url.example.com/posts/day4/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<p>nf-core is a community built around nextflow, where people build nextflow pipelines on different bioinformatics data.</p>
+<section id="why-use-nf-core" class="level2">
+<h2 class="anchored" data-anchor-id="why-use-nf-core">why use nf-core?</h2>
+<p>When we want to analyse data, we can be pretty sure that a pipeline for that type of data probably already exists. So we can save time and effort by using an already validated pipeline, built and maintained by an expert. We also get all the benefits of nextflow, like reproducibility and portability.</p>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">setup</h2>
+<p>So now all we have to do is to create a pixi environment containing nextflow and nf-core:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pixi</span> init nextflow_test <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-c</span> conda-forge <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-c</span> bioconda</span>
+<span id="cb1-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">cd</span> nextflow_test</span>
+<span id="cb1-3"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pixi</span> add nextflow nf-core</span></code></pre></div></div>
+</section>
+<section id="test-run" class="level2">
+<h2 class="anchored" data-anchor-id="test-run">test run</h2>
+<p>In this example, we will use the Sarek pipeline:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pixi</span> run nextflow run nf-core/sarek <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-profile</span> test <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--outdir</span> sarek_test <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-c</span> hpc2n.config</span></code></pre></div></div>
+<p>hpc2n.config is a configuration file that we need to run this pipeline on our cluster!</p>
+</section>
+<section id="running-nf-core-pipeline-on-real-data" class="level2">
+<h2 class="anchored" data-anchor-id="running-nf-core-pipeline-on-real-data">running nf-core pipeline on real data!</h2>
+<p>We first made a samplesheet with the samples we wanted to analyse. Then we added it to the form on the nf-core launcher and ran it as a batch job:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pixi</span> run nextflow run nf-core/rnaseq <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-r</span> 3.26.0 <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-params-file</span> nf-params.json <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-c</span> hpc2n.config</span></code></pre></div></div>
+
+
+</section>
+
+ ]]></description>
+  <category>nf-core</category>
+  <category>nextflow</category>
+  <guid>https://your-website-url.example.com/posts/day4/</guid>
+  <pubDate>Wed, 16 Sep 2026 22:00:00 GMT</pubDate>
+  <media:content url="https://your-website-url.example.com/posts/day4/day4.png" medium="image" type="image/png" height="55" width="144"/>
+</item>
+<item>
+  <title>Day 3: Workflow managers: Nextflow</title>
+  <link>https://your-website-url.example.com/posts/day3/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<p>Running one script for every tool can become difficult, especially when the analyses are more complex. A workflow manager gathers the steps and runs them in the right order so that the pipeline becomes portable and reproducible. Once the pipeline is developed, all it takes is one command to start it.</p>
+<p>Nextflow is one example of a workflow manager.</p>
+<p>In nextflow, the scripts are turned into processes that are connected by channels that contain the data. Nextflow also performs checks on the processes and their input and output. So it can automatically resume execution at a point of failure without going back over the successful steps.</p>
+<p>Here is how a nextflow script looks like. In this example, we take a string and split it into chunks, then we convert them to uppercase.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">screen</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-S</span> nextflow</span>
+<span id="cb1-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pixi</span> init <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-c</span> conda-forge <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-c</span> bioconda</span>
+<span id="cb1-3"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pixi</span> add nextflow</span>
+<span id="cb1-4"></span>
+<span id="cb1-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#!/usr/bin/env nextflow</span></span>
+<span id="cb1-6"></span>
+<span id="cb1-7"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">params.greeting</span> = <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'Hello world!'</span></span>
+<span id="cb1-8"></span>
+<span id="cb1-9"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">process</span> SPLITLETTERS {</span>
+<span id="cb1-10">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">input:</span></span>
+<span id="cb1-11">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">val</span> x</span>
+<span id="cb1-12"></span>
+<span id="cb1-13">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">output:</span></span>
+<span id="cb1-14">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">path</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'chunk_*'</span></span>
+<span id="cb1-15"></span>
+<span id="cb1-16">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">script:</span></span>
+<span id="cb1-17">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="cb1-18"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">    printf '</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">$x</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">' | split -b 6 - chunk_</span></span>
+<span id="cb1-19"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="cb1-20"><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb1-21"></span>
+<span id="cb1-22"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">process</span> CONVERTTOUPPER {</span>
+<span id="cb1-23">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">input:</span></span>
+<span id="cb1-24">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">path</span> y</span>
+<span id="cb1-25"></span>
+<span id="cb1-26">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">output:</span></span>
+<span id="cb1-27">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">stdout</span></span>
+<span id="cb1-28"></span>
+<span id="cb1-29">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">script:</span></span>
+<span id="cb1-30">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="cb1-31"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">    cat </span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">$y</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> | tr '[a-z]' '[A-Z]'</span></span>
+<span id="cb1-32"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="cb1-33"><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb1-34"></span>
+<span id="cb1-35"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">workflow</span> {</span>
+<span id="cb1-36">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">greeting_ch</span> = Channel.of<span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">(</span><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">params.greeting</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span></span>
+<span id="cb1-37">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">letters_ch</span>  = SPLITLETTERS<span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">(</span><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">greeting_ch</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span></span>
+<span id="cb1-38">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">results_ch</span>  = CONVERTTOUPPER<span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">letters_ch.flatten()</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span></span>
+<span id="cb1-39">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">results_ch.view</span> { it }</span>
+<span id="cb1-40"><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb1-41"></span>
+<span id="cb1-42"></span>
+<span id="cb1-43"></span>
+<span id="cb1-44"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pixi</span> run nextflow run hello.nf</span></code></pre></div></div>
+<p>We should also periodically clean up the nextflow work directory. We can see the executions log and runtine information with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pixi</span> run nextflow log</span></code></pre></div></div>
+<p>Then we can clean up the work directory with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pixi</span> run nextflow clean <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-f</span></span></code></pre></div></div>
+
+
+
+ ]]></description>
+  <category>nextflow</category>
+  <category>pipeline</category>
+  <category>pixi</category>
+  <guid>https://your-website-url.example.com/posts/day3/</guid>
+  <pubDate>Tue, 15 Sep 2026 22:00:00 GMT</pubDate>
+  <media:content url="https://your-website-url.example.com/posts/day3/day3.png" medium="image" type="image/png" height="97" width="144"/>
+</item>
+<item>
+  <title>Day 2: Pixi, quality control and containers</title>
+  <link>https://your-website-url.example.com/posts/Day2/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<p>A problem with reproducible research is that different software versions and dependencies can lead to very different results. So how do we solve this?</p>
+<section id="pixi" class="level2">
+<h2 class="anchored" data-anchor-id="pixi">Pixi</h2>
+<p>Pixi is an environment manager that we can run on all major operating systems. Pixi installs tools and dependencies in one project, so that others can reproduce the same results.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pixi</span> init myproject <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-c</span> conda-forge <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-c</span> bioconda   <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># conda-forge first!</span></span>
+<span id="cb1-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">cd</span> myproject</span>
+<span id="cb1-3"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pixi</span> add fastqc multiqc</span>
+<span id="cb1-4"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pixi</span> run fastqc <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--help</span></span></code></pre></div></div>
+</section>
+<section id="pixi-file-structure" class="level2">
+<h2 class="anchored" data-anchor-id="pixi-file-structure">pixi file structure</h2>
+<p>But what are the files that we now have in the project? pixi.toml lists the channels, platforms and dependencies. pixi.lock records the exact versions of the dependencies and is not to be ever deleted!</p>
+</section>
+<section id="quality-control" class="level2">
+<h2 class="anchored" data-anchor-id="quality-control">quality control</h2>
+<p>In bioinformatics, quality control is a fundamental step to make sure that the data is of good quality. One way to do this is using FastQC, a tool that generates a report with quality metrics.</p>
+<p>We ran fastqc on the samples and then used MultiQC to summarize the results in one report.</p>
+</section>
+<section id="containers" class="level2">
+<h2 class="anchored" data-anchor-id="containers">containers</h2>
+<p>Containers are built as container images that specify the operating system, dependencies, and software in an isolated environment. The container management tool then takes the images and build the container. These management tools can be run on all operating systems and it will run in all environments.</p>
+<p>To download container images, we could use for example dockerhub or seqera.</p>
+<p>We then used apptainer to get the image with apptainer pulland run the software inside the container with apptainer exec.:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">apptainer</span> pull fastqc_0.12.1.sif docker://biocontainers/fastqc:v0.11.9_cv8</span>
+<span id="cb2-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">apptainer</span> exec fastqc_0.12.1.sif fastqc <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--version</span></span></code></pre></div></div>
+</section>
+<section id="running-containers-with-sbatch" class="level2">
+<h2 class="anchored" data-anchor-id="running-containers-with-sbatch">running containers with sbatch</h2>
+<p>We can run apptainer containers as part of a batch job. Example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#! /bin/bash -l</span></span>
+<span id="cb3-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH -A project_ID</span></span>
+<span id="cb3-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH -t 30:00</span></span>
+<span id="cb3-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH -n 1</span></span>
+<span id="cb3-5"></span>
+<span id="cb3-6"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">apptainer</span> exec container_image.sif fastqc <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-o</span> . <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--noextract</span> ../data/<span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">*</span>fastq.gz</span></code></pre></div></div>
+
+
+</section>
+
+ ]]></description>
+  <category>pixi</category>
+  <category>fastqc</category>
+  <category>multiqc</category>
+  <category>containers</category>
+  <guid>https://your-website-url.example.com/posts/Day2/</guid>
+  <pubDate>Mon, 14 Sep 2026 22:00:00 GMT</pubDate>
+  <media:content url="https://your-website-url.example.com/posts/Day2/day2.png" medium="image" type="image/png" height="55" width="144"/>
+</item>
+<item>
+  <title>Day 1: How to make a Quarto blog</title>
+  <link>https://your-website-url.example.com/posts/Day1/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<section id="purpose-of-this-blog" class="level2">
+<h2 class="anchored" data-anchor-id="purpose-of-this-blog">purpose of this blog</h2>
+<p>The purpose of this blog is to document this course. It is both a way to review my notes, especially the most complex parts, and a way to practice my skills in Quarto.</p>
+</section>
+<section id="creating-the-blog" class="level2">
+<h2 class="anchored" data-anchor-id="creating-the-blog">creating the blog</h2>
+<p>Creating the blog was actually fairly easy. All we need to do is open VScode and create a new project. Then, we select the Quarto blog and that’s it! The blog skeleton is created and we can now personalise it.</p>
+</section>
+<section id="blog-structure" class="level2">
+<h2 class="anchored" data-anchor-id="blog-structure">blog structure</h2>
+<p>We will have one post for every day of the course, so five in total. What we need to do for this is have a “posts” folder where we will create a new folder for every day. There, we will write inside the index.qmd file, which contains the content of this post.</p>
+</section>
+<section id="publishing-it-on-github" class="level2">
+<h2 class="anchored" data-anchor-id="publishing-it-on-github">publishing it on github</h2>
+<p>First, we create a new repository on github. Then:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">git</span> init</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">git</span> add .</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">git</span> commit <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-m</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Initial blog"</span></span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">git</span> remote add origin https://github.com/<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span>user<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span>/<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span>repo<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span>.git</span>
+<span id="cb1-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">git</span> branch <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-M</span> main</span>
+<span id="cb1-6"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">git</span> push <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-u</span> origin main</span></code></pre></div></div>
+
+
+</section>
+
+ ]]></description>
+  <category>quarto</category>
+  <category>git</category>
+  <category>github</category>
+  <guid>https://your-website-url.example.com/posts/Day1/</guid>
+  <pubDate>Sun, 13 Sep 2026 22:00:00 GMT</pubDate>
+  <media:content url="https://your-website-url.example.com/posts/Day1/day1.png" medium="image" type="image/png" height="81" width="144"/>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,177 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Hello! I am Diana and I will walk you through the most interesting aspects of our Reproducible Research course in Uppsala. Hope you all like it!"
+  },
+  {
+    "objectID": "posts/Day1/index.html",
+    "href": "posts/Day1/index.html",
+    "title": "Day 1: How to make a Quarto blog",
+    "section": "",
+    "text": "The purpose of this blog is to document this course. It is both a way to review my notes, especially the most complex parts, and a way to practice my skills in Quarto."
+  },
+  {
+    "objectID": "posts/Day1/index.html#purpose-of-this-blog",
+    "href": "posts/Day1/index.html#purpose-of-this-blog",
+    "title": "Day 1: How to make a Quarto blog",
+    "section": "",
+    "text": "The purpose of this blog is to document this course. It is both a way to review my notes, especially the most complex parts, and a way to practice my skills in Quarto."
+  },
+  {
+    "objectID": "posts/Day1/index.html#creating-the-blog",
+    "href": "posts/Day1/index.html#creating-the-blog",
+    "title": "Day 1: How to make a Quarto blog",
+    "section": "creating the blog",
+    "text": "creating the blog\nCreating the blog was actually fairly easy. All we need to do is open VScode and create a new project. Then, we select the Quarto blog and that’s it! The blog skeleton is created and we can now personalise it."
+  },
+  {
+    "objectID": "posts/Day1/index.html#blog-structure",
+    "href": "posts/Day1/index.html#blog-structure",
+    "title": "Day 1: How to make a Quarto blog",
+    "section": "blog structure",
+    "text": "blog structure\nWe will have one post for every day of the course, so five in total. What we need to do for this is have a “posts” folder where we will create a new folder for every day. There, we will write inside the index.qmd file, which contains the content of this post."
+  },
+  {
+    "objectID": "posts/Day1/index.html#publishing-it-on-github",
+    "href": "posts/Day1/index.html#publishing-it-on-github",
+    "title": "Day 1: How to make a Quarto blog",
+    "section": "publishing it on github",
+    "text": "publishing it on github\nFirst, we create a new repository on github. Then:\ngit init\ngit add .\ngit commit -m \"Initial blog\"\ngit remote add origin https://github.com/&lt;user&gt;/&lt;repo&gt;.git\ngit branch -M main\ngit push -u origin main"
+  },
+  {
+    "objectID": "posts/Day2/index.html",
+    "href": "posts/Day2/index.html",
+    "title": "Day 2: Pixi, quality control and containers",
+    "section": "",
+    "text": "A problem with reproducible research is that different software versions and dependencies can lead to very different results. So how do we solve this?"
+  },
+  {
+    "objectID": "posts/Day2/index.html#pixi",
+    "href": "posts/Day2/index.html#pixi",
+    "title": "Day 2: Pixi, quality control and containers",
+    "section": "Pixi",
+    "text": "Pixi\nPixi is an environment manager that we can run on all major operating systems. Pixi installs tools and dependencies in one project, so that others can reproduce the same results.\npixi init myproject -c conda-forge -c bioconda   # conda-forge first!\ncd myproject\npixi add fastqc multiqc\npixi run fastqc --help"
+  },
+  {
+    "objectID": "posts/Day2/index.html#pixi-file-structure",
+    "href": "posts/Day2/index.html#pixi-file-structure",
+    "title": "Day 2: Pixi, quality control and containers",
+    "section": "pixi file structure",
+    "text": "pixi file structure\nBut what are the files that we now have in the project? pixi.toml lists the channels, platforms and dependencies. pixi.lock records the exact versions of the dependencies and is not to be ever deleted!"
+  },
+  {
+    "objectID": "posts/Day2/index.html#quality-control",
+    "href": "posts/Day2/index.html#quality-control",
+    "title": "Day 2: Pixi, quality control and containers",
+    "section": "quality control",
+    "text": "quality control\nIn bioinformatics, quality control is a fundamental step to make sure that the data is of good quality. One way to do this is using FastQC, a tool that generates a report with quality metrics.\nWe ran fastqc on the samples and then used MultiQC to summarize the results in one report."
+  },
+  {
+    "objectID": "posts/Day2/index.html#containers",
+    "href": "posts/Day2/index.html#containers",
+    "title": "Day 2: Pixi, quality control and containers",
+    "section": "containers",
+    "text": "containers\nContainers are built as container images that specify the operating system, dependencies, and software in an isolated environment. The container management tool then takes the images and build the container. These management tools can be run on all operating systems and it will run in all environments.\nTo download container images, we could use for example dockerhub or seqera.\nWe then used apptainer to get the image with apptainer pulland run the software inside the container with apptainer exec.:\napptainer pull fastqc_0.12.1.sif docker://biocontainers/fastqc:v0.11.9_cv8\napptainer exec fastqc_0.12.1.sif fastqc --version"
+  },
+  {
+    "objectID": "posts/Day2/index.html#running-containers-with-sbatch",
+    "href": "posts/Day2/index.html#running-containers-with-sbatch",
+    "title": "Day 2: Pixi, quality control and containers",
+    "section": "running containers with sbatch",
+    "text": "running containers with sbatch\nWe can run apptainer containers as part of a batch job. Example:\n#! /bin/bash -l\n#SBATCH -A project_ID\n#SBATCH -t 30:00\n#SBATCH -n 1\n\napptainer exec container_image.sif fastqc -o . --noextract ../data/*fastq.gz"
+  },
+  {
+    "objectID": "posts/day4/index.html",
+    "href": "posts/day4/index.html",
+    "title": "Day 4: nf-core pipelines",
+    "section": "",
+    "text": "nf-core is a community built around nextflow, where people build nextflow pipelines on different bioinformatics data."
+  },
+  {
+    "objectID": "posts/day4/index.html#why-use-nf-core",
+    "href": "posts/day4/index.html#why-use-nf-core",
+    "title": "Day 4: nf-core pipelines",
+    "section": "why use nf-core?",
+    "text": "why use nf-core?\nWhen we want to analyse data, we can be pretty sure that a pipeline for that type of data probably already exists. So we can save time and effort by using an already validated pipeline, built and maintained by an expert. We also get all the benefits of nextflow, like reproducibility and portability."
+  },
+  {
+    "objectID": "posts/day4/index.html#setup",
+    "href": "posts/day4/index.html#setup",
+    "title": "Day 4: nf-core pipelines",
+    "section": "setup",
+    "text": "setup\nSo now all we have to do is to create a pixi environment containing nextflow and nf-core:\npixi init nextflow_test -c conda-forge -c bioconda\ncd nextflow_test\npixi add nextflow nf-core"
+  },
+  {
+    "objectID": "posts/day4/index.html#test-run",
+    "href": "posts/day4/index.html#test-run",
+    "title": "Day 4: nf-core pipelines",
+    "section": "test run",
+    "text": "test run\nIn this example, we will use the Sarek pipeline:\npixi run nextflow run nf-core/sarek -profile test --outdir sarek_test -c hpc2n.config\nhpc2n.config is a configuration file that we need to run this pipeline on our cluster!"
+  },
+  {
+    "objectID": "posts/day4/index.html#running-nf-core-pipeline-on-real-data",
+    "href": "posts/day4/index.html#running-nf-core-pipeline-on-real-data",
+    "title": "Day 4: nf-core pipelines",
+    "section": "running nf-core pipeline on real data!",
+    "text": "running nf-core pipeline on real data!\nWe first made a samplesheet with the samples we wanted to analyse. Then we added it to the form on the nf-core launcher and ran it as a batch job:\npixi run nextflow run nf-core/rnaseq -r 3.26.0 -params-file nf-params.json -c hpc2n.config"
+  },
+  {
+    "objectID": "posts/day3/index.html",
+    "href": "posts/day3/index.html",
+    "title": "Day 3: Workflow managers: Nextflow",
+    "section": "",
+    "text": "Running one script for every tool can become difficult, especially when the analyses are more complex. A workflow manager gathers the steps and runs them in the right order so that the pipeline becomes portable and reproducible. Once the pipeline is developed, all it takes is one command to start it.\nNextflow is one example of a workflow manager.\nIn nextflow, the scripts are turned into processes that are connected by channels that contain the data. Nextflow also performs checks on the processes and their input and output. So it can automatically resume execution at a point of failure without going back over the successful steps.\nHere is how a nextflow script looks like. In this example, we take a string and split it into chunks, then we convert them to uppercase.\nscreen -S nextflow\npixi init -c conda-forge -c bioconda\npixi add nextflow\n\n#!/usr/bin/env nextflow\n\nparams.greeting = 'Hello world!'\n\nprocess SPLITLETTERS {\n    input:\n    val x\n\n    output:\n    path 'chunk_*'\n\n    script:\n    \"\"\"\n    printf '$x' | split -b 6 - chunk_\n    \"\"\"\n}\n\nprocess CONVERTTOUPPER {\n    input:\n    path y\n\n    output:\n    stdout\n\n    script:\n    \"\"\"\n    cat $y | tr '[a-z]' '[A-Z]'\n    \"\"\"\n}\n\nworkflow {\n    greeting_ch = Channel.of(params.greeting)\n    letters_ch  = SPLITLETTERS(greeting_ch)\n    results_ch  = CONVERTTOUPPER(letters_ch.flatten())\n    results_ch.view { it }\n}\n\n\n\npixi run nextflow run hello.nf\nWe should also periodically clean up the nextflow work directory. We can see the executions log and runtine information with:\npixi run nextflow log\nThen we can clean up the work directory with:\npixi run nextflow clean -f"
+  },
+  {
+    "objectID": "posts/day5/index.html",
+    "href": "posts/day5/index.html",
+    "title": "Day 5: ggplot",
+    "section": "",
+    "text": "In this last day of the course we addressed how to make plots, a fundamental step in data analysis. For this purpose, we used the R package ggplot2. The required parts to make a plot are the data (a dataframe), the aesthetics (what should be on the x and y axes) and a geom (what type of plot we want).\nlibrary(ggplot2)\nlibrary(palmerpenguins)\n\n\nAttaching package: 'palmerpenguins'\n\n\nThe following objects are masked from 'package:datasets':\n\n    penguins, penguins_raw\n\nlibrary(patchwork)"
+  },
+  {
+    "objectID": "posts/day5/index.html#example-plot",
+    "href": "posts/day5/index.html#example-plot",
+    "title": "Day 5: ggplot",
+    "section": "example plot",
+    "text": "example plot\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, colour = species)) +\n  geom_point()\n\nWarning: Removed 2 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\nThe nice thing is that we can save the plot as a variable and then add more to it! For example:\n\np &lt;- ggplot(penguins)\n\np1 &lt;- p + geom_bar(aes(x = species))\np2 &lt;- p + geom_boxplot(aes(x = species, y = body_mass_g))\n\np1 + p2\n\nWarning: Removed 2 rows containing non-finite outside the scale range\n(`stat_boxplot()`)."
+  },
+  {
+    "objectID": "posts/day5/index.html#position",
+    "href": "posts/day5/index.html#position",
+    "title": "Day 5: ggplot",
+    "section": "position",
+    "text": "position\nHow we want to have the bars:\n\nb &lt;- ggplot(penguins, aes(x = factor(year), y = body_mass_g, fill = species)) + labs(x = \"year\")\n\n(b + geom_bar(stat = \"identity\", position = \"stack\")) +\n  (b + geom_bar(stat = \"identity\", position = \"dodge\")) +\n  (b + geom_bar(stat = \"identity\", position = \"fill\")) +\n  plot_layout(guides = \"collect\")\n\nWarning: Removed 2 rows containing missing values or values outside the scale range\n(`geom_bar()`).\nRemoved 2 rows containing missing values or values outside the scale range\n(`geom_bar()`).\nRemoved 2 rows containing missing values or values outside the scale range\n(`geom_bar()`)."
+  },
+  {
+    "objectID": "posts/day5/index.html#scales",
+    "href": "posts/day5/index.html#scales",
+    "title": "Day 5: ggplot",
+    "section": "scales",
+    "text": "scales\nScales control how aesthetics are shown. For example:\n\nggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +\n  geom_point() +\n  scale_colour_manual(name = \"Species\", values = c(\"#5BC0EB\", \"#FDE74C\", \"#9BC53D\")) +\n  scale_x_continuous(name = \"Flipper length (mm)\")\n\nWarning: Removed 2 rows containing missing values or values outside the scale range\n(`geom_point()`)."
+  },
+  {
+    "objectID": "posts/day5/index.html#facets",
+    "href": "posts/day5/index.html#facets",
+    "title": "Day 5: ggplot",
+    "section": "facets",
+    "text": "facets\nFacets allow us to split the data into subplots. For example, facet_wrap() splits a plot by a variable, and facet_grid() splits a plot by two variables:\n\nggplot(penguins, aes(flipper_length_mm, body_mass_g)) +\n  geom_point() +\n  facet_grid(island ~ year)\n\nWarning: Removed 2 rows containing missing values or values outside the scale range\n(`geom_point()`)."
+  },
+  {
+    "objectID": "posts/day5/index.html#themes",
+    "href": "posts/day5/index.html#themes",
+    "title": "Day 5: ggplot",
+    "section": "themes",
+    "text": "themes\nThemes control everything that is not data.\n\nmy_theme &lt;- theme_bw() +\n  theme(panel.grid.minor = element_blank(),\n        legend.position = \"top\")\n\nggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +\n  geom_point() +\n  labs(title = \"Bigger flippers, heavier penguins\") +\n  my_theme\n\nWarning: Removed 2 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\nThen we can save the plot as a pdf or png file:\n\nggsave(\"plot.png\", p, height = 5, width = 7, units = \"cm\", dpi = 200)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Quarto_blog",
+    "section": "",
+    "text": "Day 5: ggplot\n\n\n\nggplot\n\nR\n\n\n\nBasics on making plots with ggplot\n\n\n\n\n\nSep 18, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nDay 4: nf-core pipelines\n\n\n\nnf-core\n\nnextflow\n\n\n\nTesting an already developed nf-core pipeline\n\n\n\n\n\nSep 17, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nDay 3: Workflow managers: Nextflow\n\n\n\nnextflow\n\npipeline\n\npixi\n\n\n\nLearning how to run an automated workflow with nextflow.\n\n\n\n\n\nSep 16, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nDay 2: Pixi, quality control and containers\n\n\n\npixi\n\nfastqc\n\nmultiqc\n\ncontainers\n\n\n\nReproducibility with Pixi and quality control with FastQC and MultiQC.\n\n\n\n\n\nSep 15, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nDay 1: How to make a Quarto blog\n\n\n\nquarto\n\ngit\n\ngithub\n\n\n\nI create a blog using quarto, use version control and publish it on github.\n\n\n\n\n\nSep 14, 2026\n\n\n\n\n\nNo matching items"
+  }
+]
